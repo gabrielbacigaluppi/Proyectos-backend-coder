@@ -1,40 +1,16 @@
 import express from 'express';
-import { productsManager } from './ProductManager.js';
-import { log } from 'console';
+import productsRouter from './router/products.router.js';
+import cartRouter from './router/carts.router.js';
+
 
 const app = express()
-
-app.get('/products', async (req,res)=>{
-    const {limit} = req.query
-
-    try{
-        const products = await productsManager.getProducts(limit)
-        if(!products.length){
-            res.status(200).json({message: 'No products found'})
-
-        }else{
-            res.status(200).json({message:'Products found', products})
-        }
-    }catch(error){
-        res.status(500).json({message:error})  
-    }
-})
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
 
 
-app.get("/products/:idProduct", async(req, res) => {
-    const { idProduct } = req.params;
-    try{
-        const product = await productsManager.getProductById(+idProduct)
-        if(!product){
-            res.status(400).json({message:'Product not found with the id sent'})
-        }else{
-            res.status(200).json({message:'Product found', product})
-        }
-    }catch(error){
-        res.status(500).json({message:error})
-    }
-
-});
+//Routes
+app.use('/api/products',productsRouter)
+app.use('/api/carts',cartRouter)
 
 
 app.listen(8080, ()=>{
