@@ -1,0 +1,46 @@
+{{!-- <form id="formPost" action="/api/products" method="post"> --}}
+<form id="formPost" action="/api/products" method="post">
+    title <input type="text" name="title" id="title">
+    description <input type="text" name="description" id="description">
+    code <input type="text" name="code" id="code">
+    price <input type="number" name="price" id="price">
+    stock <input type="number" name="stock" id="stock">
+    category <input type="text" name="category" id="category">
+    thumbnails <input type="text" name="thumbnails" id="thumbnails">
+    <input type="submit" value="Post">
+</form>
+
+<form  id="formDelete" action="/api/products" method="delete">
+    id <input type="number" name="id" id="idproduct">
+    <input type="submit" value="Delete">
+</form>
+
+
+
+<h2>Listado de todos los productos en tiempo real</h2>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Descripcion</th>
+
+        </tr>
+    </thead>
+    
+    <tbody id="productTableBody">
+        {{#each products}}
+        <tr data-id={{id}}> 
+            <td>{{id}}</td>
+            <td>{{title}}</td>
+            <td>{{price}}</td>
+            <td>{{description}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/realtime.js"></script>
+

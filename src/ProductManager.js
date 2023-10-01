@@ -28,13 +28,12 @@ class ProductManager {
     }
 
     async addProduct(obj) {
-        const { title, description, code, price,status, stock, category, thumbnail} = obj;
+        const { title, description, code, price,status = true, stock, category, thumbnail} = obj;
         try {
             if (
                 title === undefined ||
                 description === undefined ||
                 code === undefined ||
-                status === undefined ||
                 price === undefined ||
                 stock === undefined ||
                 category === undefined
@@ -96,11 +95,6 @@ class ProductManager {
 
     async deleteProduct(productId) {
         try {
-            // const products = await this.getProducts();
-            // const newArrayProducts = products.filter((u) => u.id !== productId);
-            // await fs.promises.writeFile(this.path, JSON.stringify(newArrayProducts));
-            // return "Producto eliminado con exito";
-
             const products = await this.getProducts()
             const product = products.find(u=>u.id === productId)
             if(!product){

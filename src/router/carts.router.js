@@ -11,6 +11,7 @@ router.get("/:idCart", async(req, res) => {
             res.status(400).json({message:'Cart not found with the id sent'})
         }else{
             res.status(200).json({message:'Cart found', cart})
+            res.render("products")
         }
     }catch(error){
         res.status(500).json({message:error})

@@ -10,7 +10,6 @@ router.get('/', async (req,res)=>{
         const products = await productsManager.getProducts(limit)
         if(!products.length){
             res.status(200).json({message: 'No products found'})
-
         }else{
             res.status(200).json({message:'Products found', products})
         }
