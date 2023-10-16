@@ -12,6 +12,10 @@ router.get('/', async (req,res)=>{
     res.render("index", {products});
 })
 
+router.get("/chat", (req,res)=>{
+    res.render("chat");
+})
+
 router.get('/realtimeproducts', async (req,res)=>{
     const products = await productsManager.getProducts()
     // socketClient.emit("productsGet", products);

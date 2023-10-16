@@ -5,6 +5,8 @@ import { engine } from 'express-handlebars';
 import { __dirname } from './utils.js';
 import { Server } from "socket.io";
 import viewsRouter from "./router/views.router.js"
+import "./dao/configDB.js"
+import { messagesManager } from './managers/messagesManager.js';
 
 const app = express()
 app.use(express.json())
@@ -31,24 +33,29 @@ const httpServer = app.listen(PORT, ()=>{
 // websocket - server
 const socketServer = new Server(httpServer)
 
+const messages = []
 // const products = [];
 socketServer.on("connection", (socket) => {
     console.log("Cliente conectado");
+    //Manejo de productos en vivo
     socket.on("newProduct", (info) => {
         socketServer.emit('productAdded', info);
     });
 
-    // socket.on("productsGet", (info) => {
-    //     // Emitir un evento a todos los clientes conectados para notificar la adición de un producto
-    //     console.log(products);
-    //     products.push(info)
-    //     console.log(products);
-    //     socketServer.emit('productAdded', info);
-    // });
-
     socket.on("deleteProduct", (id) => {
         socketServer.emit("productDeleted",id);
     });
+
+    //Manejo de usuarios en vivo para chat
+    socket.on("newUser", (user)=>{
+        socket.broadcast.emit("newUserBroadcast", user)
+    })
+
+    socket.on('message', async info =>{
+        await messagesManager.createOne(info)
+        messages.push(info)
+        socketServer.emit('chat',messages)
+    })
 
     socket.on("disconnect", () => {
         console.log("Cliente desconectado");

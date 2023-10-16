@@ -1,5 +1,3 @@
-// const { log } = require("console");
-// const fs = require("fs");
 import fs from "fs";
 
 class ProductManager {
@@ -110,8 +108,6 @@ class ProductManager {
         }
     }
 }
-
-  
 
 const productos = [
     {
@@ -278,5 +274,11 @@ const productos = [
   }
   
 test();  */
-const productsManager = new ProductManager("Products.json");
+const productsManager = new ProductManager("src/Products.json");
 export default productsManager
+
+
+
+
+
+
