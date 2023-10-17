@@ -33,7 +33,6 @@ const httpServer = app.listen(PORT, ()=>{
 // websocket - server
 const socketServer = new Server(httpServer)
 
-const messages = []
 // const products = [];
 socketServer.on("connection", (socket) => {
     console.log("Cliente conectado");
@@ -53,8 +52,7 @@ socketServer.on("connection", (socket) => {
 
     socket.on('message', async info =>{
         await messagesManager.createOne(info)
-        messages.push(info)
-        socketServer.emit('chat',messages)
+        socketServer.emit('chat',info)
     })
 
     socket.on("disconnect", () => {

@@ -30,7 +30,7 @@ router.post('/:idCart/:idProduct', async (req,res)=> {
     const newProduct = req.body
     const { idCart,idProduct } = req.params;
     try{
-        const newCart = await cartsManager.addProductInCartbyId(idCart,idProduct,newProduct)
+        const newCart = await cartsManager.createOne(idCart,idProduct,newProduct)
         res.status(200).json({message:'Product added', cart: newCart})
     }catch(error){
         res.status(500).json({message:error})

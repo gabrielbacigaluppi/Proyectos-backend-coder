@@ -46,10 +46,8 @@ form.onsubmit = (e) => {
 }
 
 //Modificar el html con el nuevo mensaje
-socketClient.on("chat", (messages)=>{
-    // console.log(messages);
-    const chat = messages
-        .map((objMessage) => `<p>${objMessage.user_email}: ${objMessage.message}</p>`)
-        .join(" ");
-    divChat.innerHTML = chat;
-})
+socketClient.on("chat", (messages) => {
+    const messageElement = document.createElement("p");
+    messageElement.innerText = `${messages.user_email}: ${messages.message}`;
+    divChat.appendChild(messageElement);
+});
