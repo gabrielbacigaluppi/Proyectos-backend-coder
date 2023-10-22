@@ -1,4 +1,5 @@
 import {Schema, model} from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 //Crear el esquema
 const productsSchema = new Schema({
@@ -18,10 +19,6 @@ const productsSchema = new Schema({
         type: Number,
         required: true,
     },
-    price: {
-        type: Number,
-        required: true,
-    },
     status: {
         type: String,
         required: true,
@@ -35,10 +32,8 @@ const productsSchema = new Schema({
         type: String,
         required:true,
     },
-    category: {
-        type: String,
-    },
 })
 
-//Crear el modelo/col
+productsSchema.plugin(mongoosePaginate)
+
 export const productsModel = model('products',productsSchema)

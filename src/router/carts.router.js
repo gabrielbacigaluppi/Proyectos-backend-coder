@@ -9,7 +9,7 @@ router.get("/:idCart", async(req, res) => {
     try{
         const cart = await cartsManager.findById(idCart)
         res.status(200).json({message:'Cart found', cart})
-        res.render("products")
+        // res.render("products")
     }catch(error){
         res.status(500).json({message:error})
     }
@@ -26,6 +26,17 @@ router.post('/', async (req,res)=> {
     }
 })
 
+router.put('/:idCart', async(req,res)=>{
+    const {idCart}= req.params
+    const updatedCart = req.body
+    try{
+        const response = await cartsManager.updateOne(idCart,updatedCart)
+    }
+    catch(error){
+        res.status(500).json({message:error})
+    }
+})
+
 router.post('/:idCart/:idProduct', async (req,res)=> {
     const newProduct = req.body
     const { idCart,idProduct } = req.params;
@@ -33,6 +44,40 @@ router.post('/:idCart/:idProduct', async (req,res)=> {
         const newCart = await cartsManager.createOne(idCart,idProduct,newProduct)
         res.status(200).json({message:'Product added', cart: newCart})
     }catch(error){
+        res.status(500).json({message:error})
+    }
+})
+
+router.delete('/:idCart', async(req,res)=>{
+    const {idCart}= req.params
+    try{
+        const response = await cartsManager.deleteOne(idCart)
+        res.status(200).json({message:'Cart deleted', respuesta: response})
+    }
+    catch(error){
+        res.status(500).json({message:error})
+    }
+})
+
+router.delete('/:idCart/products/:idProduct', async(req,res)=>{
+    const {idCart, idProduct}= req.params
+    try{
+        const response = await cartsManager.removeProductFromCart(idCart,idProduct)
+        res.status(200).json({message:'Product deleted from cart', respuesta: response})
+    }
+    catch(error){
+        res.status(500).json({message:error})
+    }
+})
+
+router.put('/:idCart/products/:idProduct', async(req,res)=>{
+    const {idCart, idProduct}= req.params
+    const newQuantity = req.body.quantity
+    try{
+        const response = await cartsManager.updateProductQuantity(idCart,idProduct,newQuantity)
+        res.status(200).json({message:'Product updated from cart', respuesta: response})
+    }
+    catch(error){
         res.status(500).json({message:error})
     }
 })
