@@ -26,17 +26,6 @@ router.post('/', async (req,res)=> {
     }
 })
 
-router.put('/:idCart', async(req,res)=>{
-    const {idCart}= req.params
-    const updatedCart = req.body
-    try{
-        const response = await cartsManager.updateOne(idCart,updatedCart)
-    }
-    catch(error){
-        res.status(500).json({message:error})
-    }
-})
-
 router.post('/:idCart/:idProduct', async (req,res)=> {
     const newProduct = req.body
     const { idCart,idProduct } = req.params;
@@ -70,6 +59,19 @@ router.delete('/:idCart/products/:idProduct', async(req,res)=>{
     }
 })
 
+router.put('/:idCart', async(req,res)=>{
+    const {idCart}= req.params
+    const products = req.body
+    try{
+        const response = await cartsManager.updateOne(idCart,products)
+        res.status(200).json({message:'Cart updated', respuesta: response})
+    }
+    catch(error){
+        res.status(500).json({message:error})
+    }
+})
+
+
 router.put('/:idCart/products/:idProduct', async(req,res)=>{
     const {idCart, idProduct}= req.params
     const newQuantity = req.body.quantity
@@ -81,6 +83,8 @@ router.put('/:idCart/products/:idProduct', async(req,res)=>{
         res.status(500).json({message:error})
     }
 })
+
+
 
 
 export default router

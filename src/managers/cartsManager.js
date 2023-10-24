@@ -22,17 +22,16 @@ class CartsManager extends BasicManager {
     }
 
     async updateProductQuantity(cartId, productId, newQuantity) {
-          const updatedCart = await cartsModel.findOneAndUpdate(
+        const updatedCart = await cartsModel.findOneAndUpdate(
             { _id: cartId, "products.product_id": productId },
             {
-              $set: { "products.$.quantity": newQuantity },
+                $set: { "products.$.quantity": newQuantity },
             },
             { new: true }
-          );
-      
-          return updatedCart;
-        
-      }
+        );
+        return updatedCart;
+    }
+
 }
 
 export const cartsManager = new CartsManager();
