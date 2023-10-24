@@ -4,27 +4,30 @@
         <tr>
             <th>ID</th>
             <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Código</th>
-            <th>Precio</th>
-            <th>Estado</th>
-            <th>Stock</th>
-            <th>Categoría</th>
+            <th>Acciones</th> 
         </tr>
     </thead>
+
     <tbody>
-        {{#each hola}}
-            <tr>
-                <td>{{@index}}: {{this}}</td>
-                {{!-- <td>{{this}}</td> --}}
-                {{!-- <td>{{this.title}}</td>
-                <td>{{this.description}}</td>
-                <td>{{this.code}}</td>
-                <td>{{this.price}}</td>
-                <td>{{this.status}}</td>
-                <td>{{this.stock}}</td>
-                <td>{{this.category}}</td> --}}
-            </tr>
+        {{#each productsArray}}
+        <tr>
+            {{#each this}}
+            {{#if this}}
+            {{#if _id}}
+                <td>{{_id}}</td>
+            {{/if}}
+            {{#if title}}
+                <td>{{title}}</td>
+                 <td>
+                    <a href="/api/products/{{this._id}}">Detalles</a>
+                    <button class="add-to-cart-button" data-product-id="{{this._id}}">Añadir al carrito</button>
+                </td>
+            {{/if}}
+            
+            {{/if}}
+            {{/each}}
+        </tr>
         {{/each}}
+
     </tbody>
 </table>

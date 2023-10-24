@@ -85,8 +85,8 @@ router.get('/', async (req,res)=>{
     
     try{
         const products = await productsManager.findAll(req.query)
-        // console.log({productsArray: products.info.payload});
-        res.render("products",{hola: products.info.payload});
+        const object = {productsArray: products.info.payload}
+        res.render("products",object);
         // res.status(200).json({message:'Products found', products})
         
     }catch(error){
@@ -97,7 +97,8 @@ router.get("/:idProduct", async(req, res) => {
     const { idProduct } = req.params;
     try{
         const product = await productsManager.findById(idProduct)
-        res.status(200).json({message:'Product found', product})
+        res.render("productsDetails",product);
+        // res.status(200).json({message:'Product found', product})
     }catch(error){
         res.status(500).json({message:error})
     }
