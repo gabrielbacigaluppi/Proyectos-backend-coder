@@ -8,8 +8,10 @@ router.get("/:idCart", async(req, res) => {
     const { idCart } = req.params;
     try{
         const cart = await cartsManager.findById(idCart)
-        res.status(200).json({message:'Cart found', cart})
-        // res.render("products")
+
+        res.render("carts",{productsArray: cart.products})
+        // res.status(200).json({message:'Cart found', cart})
+
     }catch(error){
         res.status(500).json({message:error})
     }
@@ -17,7 +19,6 @@ router.get("/:idCart", async(req, res) => {
 });
 
 router.post('/', async (req,res)=> {
-    // req.body
     try{
         const newCart = await cartsManager.createOne(req.body)
         res.status(200).json({message:'Cart created', cart: newCart})

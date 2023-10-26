@@ -14,14 +14,37 @@
     </thead>
 
     <tbody>
-        <td>{{this._id}}</td>
+        {{#each productsArray}}
+        {{#each this}}
+        {{#each product_id}}
+        <tr>
+        {{#if this._id}}
+            <td>{{this._id}}</td>
+        {{/if}}
+        {{#if this.title}}
             <td>{{this.title}}</td>
+        {{/if}}
+        {{#if this.description}}
             <td>{{this.description}}</td>
+        {{/if}}
+        {{#if this.code}}
             <td>{{this.code}}</td>
+        {{/if}}
+        {{#if this.price}}
             <td>{{this.price}}</td>
+        {{/if}}
+        {{#if this.status}}
             <td>{{this.status}}</td>
+        {{/if}}
+        {{#if this.stock}}
             <td>{{this.stock}}</td>
+        {{/if}}
+        {{#if this.category}}
             <td>{{this.category}}</td>
-
+        {{/if}}
+        </tr>
+        {{/each}}
+        {{/each}}
+        {{/each}}
     </tbody>
 </table>
