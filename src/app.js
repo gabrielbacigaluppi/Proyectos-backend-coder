@@ -5,13 +5,34 @@ import { engine } from 'express-handlebars';
 import { __dirname } from './utils.js';
 import { Server } from "socket.io";
 import viewsRouter from "./router/views.router.js"
+import usersRouter from "./router/users.router.js"
 import "./dao/configDB.js"
 import { messagesManager } from './managers/messagesManager.js';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import mongoStore from 'connect-mongo';
+
 
 const app = express()
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static(__dirname+"/public"));
+
+// session con mongo
+const URI =
+  "mongodb+srv://gabibaci:Z51SLqUXRCEbx71l@cluster0.v4xsmky.mongodb.net/ecommerce";
+app.use(session({
+    secret:'SESSIONSECRETKEY',
+    cookie:{
+        maxAge: 60*60*1000
+    },
+
+    store: new mongoStore({
+        mongoUrl:URI,
+    }),
+}))
+
+
 
 //handlebars
 app.engine("handlebars",engine());
@@ -22,6 +43,7 @@ app.set("view engine", "handlebars");
 //Routes
 app.use('/api/products',productsRouter)
 app.use('/api/carts',cartRouter)
+app.use("/api/users", usersRouter);
 app.use('/api',viewsRouter)
 
 

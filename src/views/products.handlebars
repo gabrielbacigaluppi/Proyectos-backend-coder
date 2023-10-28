@@ -1,4 +1,8 @@
-<h2>Listado de productos</h2>
+<h2>HOME</h2>
+<h3>Welcome {{session.first_name}}, your email is: {{session.email}}, Rol: {{session.isAdmin}}</h3>
+<button onclick="location.href='/api/users/logout'">Logout</button>
+
+<h3>Listado de productos</h3>
 <table>
     <thead>
         <tr>

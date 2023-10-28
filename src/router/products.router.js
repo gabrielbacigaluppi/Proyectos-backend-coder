@@ -82,10 +82,13 @@ router.delete('/:idProduct', async(req,res)=>{
 
 
 router.get('/', async (req,res)=>{
-    
     try{
         const products = await productsManager.findAll(req.query)
-        const object = {productsArray: products.info.payload}
+        const sessionData = req.session;
+        const object = {
+            productsArray: products.info.payload,
+            session: sessionData
+        };
         res.render("products",object);
         // res.status(200).json({message:'Products found', products})
         
