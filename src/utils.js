@@ -1,6 +1,9 @@
 import {dirname} from "path";
 import { fileURLToPath } from "url";
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
+import passport from "passport";
+import local from 'passport-local';
+
 
 export const __dirname = dirname(fileURLToPath(import.meta.url))
 

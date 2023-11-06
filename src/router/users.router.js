@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { usersManager } from "../managers/usersManager.js";
 import { compareData, hashData } from "../utils.js";
+import passport from "passport";
 
 const router = Router();
 
@@ -13,7 +14,7 @@ const router = Router();
 
 // mongo
 
-//Aca manejo el login de un usuario existente o no
+/* //Aca manejo el login de un usuario existente o no
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const userDB = await usersManager.findByEmail(email);
@@ -44,10 +45,21 @@ router.post("/signup", async (req, res) => {
   });
   res.redirect('/api/login')
   // res.status(200).json({ message: "User created", createdUser });
-});
+}); */
 
-router.get("/logout", (req,res) => {
-  req.session.destroy(()=>{
+// signup - login - passport
+
+router.post("/signup", passport.authenticate("signup", {
+  successRedirect:"/api/login",
+  failureRedirect:"/api/signup",
+}))
+router.post("/login", passport.authenticate("login", {
+  successRedirect:"/api/products",
+  failureRedirect:"/api/login",
+}))
+
+router.get("/logout", (req, res) => {
+  req.session.destroy(() => {
     res.redirect('/api/login')
   })
 })
