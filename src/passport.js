@@ -2,6 +2,7 @@ import passport from "passport";
 import { usersManager } from "./managers/usersManager.js";
 import { Strategy as LocalStrategy } from "passport-local";
 import { compareData, hashData } from "./utils.js";
+import { Strategy as GitHubStrategy } from "passport-github2";
 
 passport.use(
     "signup",
@@ -46,10 +47,9 @@ passport.use(
                 if (!isValid) {
                     return done(null, false);
                 }
-                // req.session["email"] = email;
-                // req.session["first_name"] = userDB.first_name;
-                // req.session["isAdmin"] =
-                //     email === "adminCoder@coder.com" && password === "Cod3r123" ? "admin" : "user";
+                userDB.isAdmin =
+                    email === "adminCoder@coder.com" && password === "Cod3r123" ? "admin" : "user";
+
                 done(null, userDB);
             } catch (error) {
                 done(error);
@@ -58,13 +58,56 @@ passport.use(
     )
 );
 
+passport.use('github',
+    new GitHubStrategy(
+        {
+            clientID: "Iv1.3ae0f6c1826d73ae",
+            clientSecret: "86a6fb6159c47ff1234ce282f221b8d1b1976c2c",
+            callbackURL: "http://localhost:8080/api/users/githubcallback",
+        },
+        async function (accessToken, refreshToken, profile, done) {
+            // console.log("profile", profile._json.email);
+            // console.log("profile", profile);
+            // done(null, false);
+            try {
+                const userDB = await usersManager.findByEmail(profile._json.email);
+                // login
+                if (userDB) {
+                    if (userDB.from_github) {
+                        return done(null, userDB);
+                    } else {
+                        return done(null, false);
+                    }
+                }
+                // signup
+                const newUser = {
+                    first_name: "prueba",
+                    last_name: "test",
+                    email: profile._json.email,
+                    password: "fekhflvlv",
+                    from_github: true,
+                    age:19,
+                };
+                const createdUser = await usersManager.createOne(newUser);
+                done(null, createdUser);
+            } catch (error) {
+                done(error);
+            } 
+        }
+    )
+);
+
+
+
+
+
 passport.serializeUser(function (user, done) {
     done(null, user._id);
 });
 
 passport.deserializeUser(async function (id, done) {
     try {
-        const user = await usersManager.getById(id);
+        const user = await usersManager.findById(id);
         done(null, user);
     } catch (error) {
         done(error);
