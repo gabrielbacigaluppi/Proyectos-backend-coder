@@ -13,11 +13,15 @@ import session from 'express-session';
 import mongoStore from 'connect-mongo';
 import passport from 'passport';
 import './passport.js'
+import sessionsRouter from "./router/sessions.router.js"
 
 const app = express()
+
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static(__dirname+"/public"));
+
+app.use(cookieParser())
 
 //Session con mongo
 const URI =
@@ -45,9 +49,10 @@ app.set("view engine", "handlebars");
 app.use('/api/products',productsRouter)
 app.use('/api/carts',cartRouter)
 app.use("/api/users", usersRouter);
+app.use("/api/sessions", sessionsRouter);
 app.use('/api',viewsRouter)
 
-//Passport
+//Passport 
 app.use(passport.initialize())
 app.use(passport.session())
 

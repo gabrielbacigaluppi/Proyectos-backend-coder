@@ -25,7 +25,19 @@ const userSchema = new mongoose.Schema({
     from_github: {
         type: Boolean,
         default: false,
+    },
+    cart: 
+        {
+            cart_id: {
+                type: mongoose.SchemaTypes.ObjectId,
+                ref:"carts"
+            }
+        },
+    role:{
+        type:String,
+        default: 'user'
     }
+
 })
 
 export const usersModel = mongoose.model("Users", userSchema)

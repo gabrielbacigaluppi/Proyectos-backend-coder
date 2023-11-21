@@ -3,6 +3,36 @@ import { usersManager } from "./managers/usersManager.js";
 import { Strategy as LocalStrategy } from "passport-local";
 import { compareData, hashData } from "./utils.js";
 import { Strategy as GitHubStrategy } from "passport-github2";
+import jwt from "passport-jwt";
+
+const JWTStrategy = jwt.Strategy
+const ExtractJWT = jwt.ExtractJwt
+const JWT_SECRET = "jwtSECRET";
+
+const cookieExtractor = req => {
+    let token = null
+    if (req && req.cookies) {
+        token = req.cookies['coderCookieToken']
+    }
+    return token
+}
+
+
+passport.use('jwt', new JWTStrategy({
+    jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
+    // secretOrKey: 'coderSecret', ====>>> {"error":"JsonWebTokenError: invalid signature"}
+    secretOrKey: JWT_SECRET,
+}, async (jwt_payload, done) => {
+    try {
+        // console.log("---jwt-passport---", jwt_payload);
+        return done(null, jwt_payload)
+    }
+    catch (error) {
+        return done(error)
+    }
+}
+))
+
 
 passport.use(
     "signup",
@@ -70,6 +100,7 @@ passport.use('github',
             // console.log("profile", profile);
             // done(null, false);
             try {
+                // console.log(profile);
                 const userDB = await usersManager.findByEmail(profile._json.email);
                 // login
                 if (userDB) {
@@ -86,13 +117,13 @@ passport.use('github',
                     email: profile._json.email,
                     password: "fekhflvlv",
                     from_github: true,
-                    age:19,
+                    age: 19,
                 };
                 const createdUser = await usersManager.createOne(newUser);
                 done(null, createdUser);
             } catch (error) {
                 done(error);
-            } 
+            }
         }
     )
 );

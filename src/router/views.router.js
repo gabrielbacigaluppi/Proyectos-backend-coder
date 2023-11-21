@@ -33,4 +33,13 @@ router.get("/home", (req, res) => {
     res.render("home", { email, first_name });
 });
 
+router.get("/jwt/login", (req, res) => {
+    res.render("loginjwt");
+});
+
+router.get("/jwt/signup", (req, res) => {
+    res.render("signupjwt");
+});
+
+
 export default router;
