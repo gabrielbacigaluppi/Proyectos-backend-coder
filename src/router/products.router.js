@@ -1,6 +1,6 @@
 import { Router } from "express";
 // import productsManager from '../ProductManager.js'
-import { productsManager } from "../managers/productsManager.js";
+import {findAllProducts,findProduct,createProduct,updateProduct,deleteProduct} from "../controllers/products.controller.js"
 
 const router = Router()
 
@@ -81,70 +81,10 @@ router.delete('/:idProduct', async(req,res)=>{
 }) */
 
 
-router.get('/', async (req,res)=>{
-    try{
-        const products = await productsManager.findAll(req.query)
-        const sessionData = req.session;
-        const object = {
-            productsArray: products.info.payload,
-            session: sessionData
-        };
-        res.render("products",object);
-        // res.status(200).json({message:'Products found', products})
-        
-    }catch(error){
-        res.status(500).json({message:error})  
-    }
-})
-router.get("/:idProduct", async(req, res) => {
-    const { idProduct } = req.params;
-    try{
-        const product = await productsManager.findById(idProduct)
-        res.render("productsDetails",product);
-        // res.status(200).json({message:'Product found', product})
-    }catch(error){
-        res.status(500).json({message:error})
-    }
-
-});
-
-router.post('/', async (req,res)=> {
-    try{
-        const newProduct = await productsManager.createOne(req.body)
-        res.status(200).json({message:'Product created', product: newProduct})
-    }catch(error){
-        res.status(500).json({message:error})
-    }
-})
-
-router.put('/:idProduct', async(req,res)=>{
-    const {idProduct}= req.params
-    const updatedProduct = req.body
-    try{
-        const response = await productsManager.updateOne(idProduct,updatedProduct)
-        if(response === -1){
-            res.status(400).json({message:'Product not found with the id sent'})
-        }
-        else{
-            res.status(200).json({message:'Product updated'})
-        }
-    }
-    catch(error){
-        res.status(500).json({message:error})
-    }
-})
-
-router.delete('/:idProduct', async(req,res)=>{
-    const {idProduct}= req.params
-    try{
-        const response = await productsManager.deleteOne(idProduct)
-        res.status(200).json({message:'Product deleted'})
-    }
-    catch(error){
-        res.status(500).json({message:error})
-    }
-})
-
-
+router.get('/', findAllProducts)
+router.get("/:idProduct", findProduct);
+router.post('/', createProduct)
+router.put('/:idProduct', updateProduct)
+router.delete('/:idProduct', deleteProduct)
 
 export default router

@@ -6,14 +6,15 @@ import { __dirname } from './utils.js';
 import { Server } from "socket.io";
 import viewsRouter from "./router/views.router.js"
 import usersRouter from "./router/users.router.js"
-import "./dao/configDB.js"
-import { messagesManager } from './managers/messagesManager.js';
+import "./config/configDB.js"
+import { messagesManager } from './dao/messagesManager.js';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import mongoStore from 'connect-mongo';
 import passport from 'passport';
 import './passport.js'
 import sessionsRouter from "./router/sessions.router.js"
+import config from "./config/config.js"
 
 const app = express()
 
@@ -24,10 +25,9 @@ app.use(express.static(__dirname+"/public"));
 app.use(cookieParser())
 
 //Session con mongo
-const URI =
-  "mongodb+srv://gabibaci:Z51SLqUXRCEbx71l@cluster0.v4xsmky.mongodb.net/ecommerce";
+const URI = config.mongo_uri
 app.use(session({
-    secret:'SESSIONSECRETKEY',
+    secret: config.mongo_secret,
     cookie:{
         maxAge: 60*60*1000
     },

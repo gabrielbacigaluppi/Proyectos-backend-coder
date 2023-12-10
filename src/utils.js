@@ -4,8 +4,10 @@ import bcrypt from "bcrypt";
 import passport from "passport";
 import local from 'passport-local';
 import jwt from "jsonwebtoken";
+import config from "./config/config.js"
 
-const JWT_SECRET = "jwtSECRET";
+const JWT_SECRET = config.jwt_key;
+
 
 export const __dirname = dirname(fileURLToPath(import.meta.url))
 

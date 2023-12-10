@@ -1,13 +1,15 @@
 import passport from "passport";
-import { usersManager } from "./managers/usersManager.js";
+import { usersManager } from "./dao/usersManager.js";
 import { Strategy as LocalStrategy } from "passport-local";
 import { compareData, hashData } from "./utils.js";
 import { Strategy as GitHubStrategy } from "passport-github2";
 import jwt from "passport-jwt";
+import config from "./config/config.js"
 
 const JWTStrategy = jwt.Strategy
 const ExtractJWT = jwt.ExtractJwt
-const JWT_SECRET = "jwtSECRET";
+const JWT_SECRET = config.jwt_key;
+
 
 const cookieExtractor = req => {
     let token = null
@@ -24,7 +26,6 @@ passport.use('jwt', new JWTStrategy({
     secretOrKey: JWT_SECRET,
 }, async (jwt_payload, done) => {
     try {
-        // console.log("---jwt-passport---", jwt_payload);
         return done(null, jwt_payload)
     }
     catch (error) {
@@ -91,14 +92,12 @@ passport.use(
 passport.use('github',
     new GitHubStrategy(
         {
-            clientID: "Iv1.3ae0f6c1826d73ae",
-            clientSecret: "86a6fb6159c47ff1234ce282f221b8d1b1976c2c",
+            clientID: config.github_client_id,
+            clientSecret: config.github_client_secret,
             callbackURL: "http://localhost:8080/api/users/githubcallback",
         },
         async function (accessToken, refreshToken, profile, done) {
-            // console.log("profile", profile._json.email);
-            // console.log("profile", profile);
-            // done(null, false);
+            
             try {
                 // console.log(profile);
                 const userDB = await usersManager.findByEmail(profile._json.email);
