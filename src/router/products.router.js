@@ -1,6 +1,7 @@
 import { Router } from "express";
 // import productsManager from '../ProductManager.js'
 import {findAllProducts,findProduct,createProduct,updateProduct,deleteProduct} from "../controllers/products.controller.js"
+import { fakeProducts } from "../mocking.js";
 
 const router = Router()
 
@@ -80,11 +81,12 @@ router.delete('/:idProduct', async(req,res)=>{
     }
 }) */
 
-
 router.get('/', findAllProducts)
+router.get('/mockingproducts',fakeProducts)
 router.get("/:idProduct", findProduct);
 router.post('/', createProduct)
 router.put('/:idProduct', updateProduct)
 router.delete('/:idProduct', deleteProduct)
+
 
 export default router

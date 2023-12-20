@@ -1,5 +1,5 @@
 import passport from "passport";
-import { usersManager } from "./dao/usersManager.js";
+import { usersManager } from "./dao/mongo/usersManager.js";
 import { Strategy as LocalStrategy } from "passport-local";
 import { compareData, hashData } from "./utils.js";
 import { Strategy as GitHubStrategy } from "passport-github2";
@@ -79,7 +79,8 @@ passport.use(
                     return done(null, false);
                 }
                 userDB.isAdmin =
-                    email === "adminCoder@coder.com" && password === "Cod3r123" ? "admin" : "user";
+                    // email === "adminCoder@coder.com" && password === "Cod3r123" ? "admin" : "user";
+                    email === "adminCoder@coder.com" && password === "Cod3r123" ? true : false;
 
                 done(null, userDB);
             } catch (error) {

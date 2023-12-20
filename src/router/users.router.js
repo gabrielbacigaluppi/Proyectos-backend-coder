@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { usersManager } from "../dao/usersManager.js";
+import { usersManager } from "../dao/mongo/usersManager.js";
 import { compareData, hashData } from "../utils.js";
 import passport from "passport";
 
@@ -14,9 +14,10 @@ router.post("/signup", passport.authenticate("signup", {
 router.post("/login",
 	passport.authenticate("login", { failureRedirect: "/api/login", }),
 	function (req, res) {
-		// console.log(req.user.isAdmin);
+		console.log(req.user);
 		req.session["email"] = req.user.email;
 		req.session["first_name"] = req.user.first_name;
+		req.session["last_name"] = req.user.last_name;
 		req.session.isAdmin = req.user.isAdmin;
 		res.redirect("/api/products",)
 	}

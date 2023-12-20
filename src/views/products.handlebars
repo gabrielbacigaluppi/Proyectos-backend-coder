@@ -1,5 +1,10 @@
 <h2>HOME</h2>
-<h3>Welcome {{session.first_name}}, your email is: {{session.email}}, Rol: {{session.isAdmin}}</h3>
+{{#if session.isAdmin}}
+    <h3>Welcome {{session.first_name}}, your email is: {{session.email}}, Rol: Admin</h3>
+{{else}}
+    <h3>Welcome {{session.first_name}}, your email is: {{session.email}}, Rol: User</h3>
+{{/if}}
+{{!-- <h3>Welcome {{session.first_name}}, your email is: {{session.email}}, Rol: {{session.isAdmin}}</h3> --}}
 <button onclick="location.href='/api/users/logout'">Logout</button>
 
 <h3>Listado de productos</h3>
@@ -12,26 +17,75 @@
         </tr>
     </thead>
 
-    <tbody>
-        {{#each productsArray}}
-        <tr>
-            {{#each this}}
-            {{#if this}}
-            {{#if _id}}
-                <td>{{_id}}</td>
-            {{/if}}
-            {{#if title}}
-                <td>{{title}}</td>
-                 <td>
-                    <a href="/api/products/{{this._id}}">Detalles</a>
-                    <button class="add-to-cart-button" data-product-id="{{this._id}}">Añadir al carrito</button>
-                </td>
-            {{/if}}
-            
-            {{/if}}
-            {{/each}}
-        </tr>
-        {{/each}}
+    <tbody>        
+        {{#if session.isAdmin}}
+            {{#each productsArray}}
+            <tr>
+                {{#each this}}
+                {{#if this}}
+                    {{#if _id}}
+                        <td>{{_id}}</td>
+                    {{/if}}
+                    {{#if title}}
+                        <td>{{title}}</td>
+                        <td>
+                            <a href="/api/products/{{this._id}}">Detalles</a>
+                        </td>
+                        <td>
+                            <button >Actualizar producto</button>
+                        </td>
+                        <td>
+                            <button >Eliminar producto</button>
+                        </td>
+                        
+                    {{/if}}
+                
+                {{/if}}
+                {{/each}}
+              
+            </tr>
+            {{/each}}    
+            <td>
+                <button >Nuevo producto</button>
+            </td>
+
+        {{else}}
+            {{#each productsArray}}
+            <tr>
+                {{#each this}}
+                {{#if this}}
+                {{#if _id}}
+                    <td>{{_id}}</td>
+                {{/if}}
+                {{#if title}}
+                    <td>{{title}}</td>
+                    <td>
+                        <a href="/api/products/{{this._id}}">Detalles</a>
+                        <input type="number" id="quantity-{{this._id}}" value="1" min="1">
+                        <button class="add-to-cart-button" data-product-id="{{this._id}}" onclick="addToCart('{{this._id}}')">Añadir al carrito</button>
+                    </td>
+                    
+                {{/if}}
+                
+                {{/if}}
+                {{/each}}
+                
+            </tr>
+            {{/each}}    
+        {{/if}}
 
     </tbody>
 </table>
+
+
+<h2>Formulario de contacto via mail dirigido a {{session.email}}</h2>
+<form action="/api/message" method="post">
+    Asunto del mensaje: <input type="text" name="message"><br>
+    <input type="submit" value="Enviar">
+</form>
+
+<h2>Formulario de contacto via celular a numero trial de confianza (usar con discrecion)</h2>
+<form action="/api/message/twilio" method="post">
+    Contenido del mensaje: <input type="text" name="message"><br>
+    <input type="submit" value="Enviar">
+</form>

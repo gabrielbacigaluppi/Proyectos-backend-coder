@@ -1,5 +1,5 @@
 import { Router } from "express";
-import productsManager from "../ProductManager.js";
+import productsManager from "../dao/memory/ProductManager.js";
 // import { Server } from "socket.io";
 
 const router = Router();

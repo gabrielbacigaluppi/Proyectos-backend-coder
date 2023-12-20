@@ -39,6 +39,7 @@ router.post('/login', (req, res) => {
 //     res.send(req.user)
 // })
 router.get("/current", passportCall('jwt'), (req, res) => {
+    // res.send({user: req.user.email, password: req.user.password})
     res.send(req.user)
 })
 

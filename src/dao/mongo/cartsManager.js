@@ -32,6 +32,10 @@ class CartsManager extends BasicManager {
         return updatedCart;
     }
 
+    async purchaseCart(){
+        
+    }
+
 }
 
 export const cartsManager = new CartsManager();

@@ -1,4 +1,4 @@
-import {productsManager} from "../dao/productsManager.js"
+import {productsManager} from "../dao/mongo/productsManager.js"
 
 
 export const findAll = (opt) => {

@@ -7,7 +7,7 @@ import { Server } from "socket.io";
 import viewsRouter from "./router/views.router.js"
 import usersRouter from "./router/users.router.js"
 import "./config/configDB.js"
-import { messagesManager } from './dao/messagesManager.js';
+import { messagesManager } from './dao/mongo/messagesManager.js';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import mongoStore from 'connect-mongo';
@@ -15,6 +15,8 @@ import passport from 'passport';
 import './passport.js'
 import sessionsRouter from "./router/sessions.router.js"
 import config from "./config/config.js"
+import messagesRouter from './router/messages.router.js'
+import { errorMiddleware } from './errors/error.middleware.js';
 
 const app = express()
 
@@ -51,11 +53,14 @@ app.use('/api/carts',cartRouter)
 app.use("/api/users", usersRouter);
 app.use("/api/sessions", sessionsRouter);
 app.use('/api',viewsRouter)
+app.use('/api/message',messagesRouter)
 
 //Passport 
 app.use(passport.initialize())
 app.use(passport.session())
 
+//Errors
+app.use(errorMiddleware)
 
 const PORT = 8080;
 const httpServer = app.listen(PORT, ()=>{

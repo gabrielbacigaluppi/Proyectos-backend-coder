@@ -1,4 +1,4 @@
-import { cartsManager } from "../dao/cartsManager.js";
+import { cartsManager } from "../dao/mongo/cartsManager.js";
 
 export const findById = (id) => {
     const cart = cartsManager.findById(id)
@@ -28,4 +28,10 @@ export const updateOne = (idCart,products) => {
 export const updateProductQuantity = (idCart,idProduct,newQuantity) => {
     const updatedQuantity = cartsManager.updateProductQuantity(idCart,idProduct,newQuantity)
     return updatedQuantity
+}
+
+
+export const purchaseCart = () => {
+    const cartPurchased = cartsManager.purchaseCart()
+    return cartPurchased
 }
