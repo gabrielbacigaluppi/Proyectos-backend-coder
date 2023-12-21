@@ -11,7 +11,7 @@ import {
 import { ErrorMessages } from "../errors/error.enum.js";
 import CustomeError from "../errors/custom.error.js";
 
-export const findCartById = async (req, res) => {
+export const findCartById = async (req, res, next) => {
     const { idCart } = req.params;
     try {
         const cart = await findById(idCart)
@@ -19,55 +19,60 @@ export const findCartById = async (req, res) => {
         // res.status(200).json({message:'Cart found', cart})
 
     } catch (error) {
-        // CustomeError.createError(ErrorMessages.CART_NOT_FOUND)
-        res.status(500).json({ message: error })
+        // res.status(500).json({ message: error })      
+        next(CustomeError.createError(ErrorMessages.CART_NOT_FOUND));
     }
+
 
 };
 
-export const createCart = async (req, res) => {
+export const createCart = async (req, res, next) => {
     try {
         const newCart = await createOne(req.body)
         res.status(200).json({ message: 'Cart created', cart: newCart })
     } catch (error) {
-        res.status(500).json({ message: error })
+        // res.status(500).json({ message: error })
+        next(CustomeError.createError(ErrorMessages.CART_NOT_CREATED));
     }
 }
 
-export const addProductToCart = async (req, res) => {
+export const addProductToCart = async (req, res, next) => {
     const newProduct = req.body
     const { idCart, idProduct } = req.params;
     try {
         const newCart = await createOne(idCart, idProduct, newProduct)
         res.status(200).json({ message: 'Product added', cart: newCart })
     } catch (error) {
-        res.status(500).json({ message: error })
+        // res.status(500).json({ message: error })
+        next(CustomeError.createError(ErrorMessages.PRODUCT_NOT_ADDED));
     }
 }
 
-export const deleteCartById = async (req, res) => {
+export const deleteCartById = async (req, res, next) => {
     const { idCart } = req.params
     try {
         const response = await deleteOne(idCart)
         res.status(200).json({ message: 'Cart deleted', respuesta: response })
     }
     catch (error) {
-        res.status(500).json({ message: error })
+        // res.status(500).json({ message: error })
+        next(CustomeError.createError(ErrorMessages.CART_NOT_DELETED));
     }
 }
 
-export const removeProduct = async (req, res) => {
+export const removeProduct = async (req, res, next) => {
     const { idCart, idProduct } = req.params
     try {
         const response = await removeProductFromCart(idCart, idProduct)
         res.status(200).json({ message: 'Product deleted from cart', respuesta: response })
     }
     catch (error) {
-        res.status(500).json({ message: error })
+        // res.status(500).json({ message: error })
+        next(CustomeError.createError(ErrorMessages.PRODUCT_NOT_REMOVED));
     }
 }
 
-export const updateCart = async (req, res) => {
+export const updateCart = async (req, res, next) => {
     const { idCart } = req.params
     const products = req.body
     try {
@@ -75,11 +80,12 @@ export const updateCart = async (req, res) => {
         res.status(200).json({ message: 'Cart updated', respuesta: response })
     }
     catch (error) {
-        res.status(500).json({ message: error })
+        // res.status(500).json({ message: error })
+        next(CustomeError.createError(ErrorMessages.CART_NOT_UPDATED));
     }
 }
 
-export const updateProdQuant = async (req, res) => {
+export const updateProdQuant = async (req, res, next) => {
     const { idCart, idProduct } = req.params
     const newQuantity = req.body.quantity
     try {
@@ -87,10 +93,12 @@ export const updateProdQuant = async (req, res) => {
         res.status(200).json({ message: 'Product updated from cart', respuesta: response })
     }
     catch (error) {
-        res.status(500).json({ message: error })
+        // res.status(500).json({ message: error })
+        next(CustomeError.createError(ErrorMessages.QUANTITY_NOT_UPDATED));
     }
 }
-export const purchCart = async (req, res) => {
+
+export const purchCart = async (req, res, next) => {
     const { idCart, idProduct } = req.params
     const newQuantity = req.body.quantity
     try {
@@ -98,7 +106,8 @@ export const purchCart = async (req, res) => {
         res.status(200).json({ message: 'Cart purchased', respuesta: response })
     }
     catch (error) {
-        res.status(500).json({ message: error })
+        // res.status(500).json({ message: error })
+        next(CustomeError.createError(ErrorMessages.CART_NOT_PURCHASED));
     }
 }
 

@@ -1,3 +1,5 @@
 export const errorMiddleware = (error, req, res, next) => {
-  res.send({ status: "Error", message: error.message, error: error.name });
+  // res.send({ status: "Error", message: error.message, error: error.name });
+  console.log(error);
+  res.send({ status: "Error", message: error.message});
 };

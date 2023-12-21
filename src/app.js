@@ -20,9 +20,10 @@ import { errorMiddleware } from './errors/error.middleware.js';
 
 const app = express()
 
+
 app.use(express.json())
-app.use(express.urlencoded({extended: true}))
-app.use(express.static(__dirname+"/public"));
+app.use(express.urlencoded({ extended: true }))
+app.use(express.static(__dirname + "/public"));
 
 app.use(cookieParser())
 
@@ -30,40 +31,40 @@ app.use(cookieParser())
 const URI = config.mongo_uri
 app.use(session({
     secret: config.mongo_secret,
-    cookie:{
-        maxAge: 60*60*1000
+    cookie: {
+        maxAge: 60 * 60 * 1000
     },
 
     store: new mongoStore({
-        mongoUrl:URI,
+        mongoUrl: URI,
     }),
 }))
 
 
-
 //Handlebars
-app.engine("handlebars",engine());
-app.set("views", __dirname +"/views");
+app.engine("handlebars", engine());
+app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 
 
 //Routes
-app.use('/api/products',productsRouter)
-app.use('/api/carts',cartRouter)
+app.use('/api/products', productsRouter)
+app.use('/api/carts', cartRouter)
 app.use("/api/users", usersRouter);
 app.use("/api/sessions", sessionsRouter);
-app.use('/api',viewsRouter)
-app.use('/api/message',messagesRouter)
+app.use('/api', viewsRouter)
+app.use('/api/message', messagesRouter)
+
+//Errors
+app.use(errorMiddleware)
 
 //Passport 
 app.use(passport.initialize())
 app.use(passport.session())
 
-//Errors
-app.use(errorMiddleware)
 
 const PORT = 8080;
-const httpServer = app.listen(PORT, ()=>{
+const httpServer = app.listen(PORT, () => {
     console.log(`Escuchando el puerto ${PORT}`);
 })
 
@@ -79,17 +80,17 @@ socketServer.on("connection", (socket) => {
     });
 
     socket.on("deleteProduct", (id) => {
-        socketServer.emit("productDeleted",id);
+        socketServer.emit("productDeleted", id);
     });
 
     //Manejo de usuarios en vivo para chat
-    socket.on("newUser", (user)=>{
+    socket.on("newUser", (user) => {
         socket.broadcast.emit("newUserBroadcast", user)
     })
 
-    socket.on('message', async info =>{
+    socket.on('message', async info => {
         await messagesManager.createOne(info)
-        socketServer.emit('chat',info)
+        socketServer.emit('chat', info)
     })
 
     socket.on("disconnect", () => {
