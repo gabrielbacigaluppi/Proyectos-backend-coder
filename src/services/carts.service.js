@@ -30,8 +30,3 @@ export const updateProductQuantity = (idCart,idProduct,newQuantity) => {
     return updatedQuantity
 }
 
-
-export const purchaseCart = () => {
-    const cartPurchased = cartsManager.purchaseCart()
-    return cartPurchased
-}

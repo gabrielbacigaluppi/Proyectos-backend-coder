@@ -32,8 +32,8 @@ class CartsManager extends BasicManager {
         return updatedCart;
     }
 
-    async purchaseCart(){
-        
+    async purchaseCart(idCart) {
+
     }
 
 }

@@ -26,6 +26,7 @@ const obj = {
     twilio_whatsapp_number: process.env.TWILIO_NUMBER,
     twilio_account_sid: process.env.TWILIO_SID,
     twilio_auth_token:process.env.TWILIO_TOKEN,
+    environment: process.env.ENVIRONMENT
 }
 
 // console.log(obj);

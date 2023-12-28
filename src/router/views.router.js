@@ -1,5 +1,6 @@
 import { Router } from "express";
 import productsManager from "../dao/memory/ProductManager.js";
+import { addLogger } from "../winston.js";
 // import { Server } from "socket.io";
 
 const router = Router();
@@ -40,6 +41,18 @@ router.get("/jwt/login", (req, res) => {
 router.get("/jwt/signup", (req, res) => {
     res.render("signupjwt");
 });
+
+
+router.get('/loggerTest', (req, res) => {
+	//Los siguientes son los que vienen por default
+	addLogger.fatal("Fatal error");
+	addLogger.error("Error");
+	addLogger.warning("Warning");
+	addLogger.info("Info");
+	addLogger.http("http");
+	addLogger.debug("Debug");
+	res.send("Probando winston");
+})
 
 
 export default router;

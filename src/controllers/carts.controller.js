@@ -4,10 +4,9 @@ import {
     deleteOne,
     removeProductFromCart,
     updateOne,
-    updateProductQuantity,
-    purchaseCart
+    updateProductQuantity
 } from "../services/carts.service.js"
-
+import {purchaseCart} from "../services/tickets.service.js"
 import { ErrorMessages } from "../errors/error.enum.js";
 import CustomeError from "../errors/custom.error.js";
 
@@ -99,10 +98,10 @@ export const updateProdQuant = async (req, res, next) => {
 }
 
 export const purchCart = async (req, res, next) => {
-    const { idCart, idProduct } = req.params
+    const { idCart } = req.params
     const newQuantity = req.body.quantity
     try {
-        const response = await purchaseCart()
+        const response = await purchaseCart(idCart)
         res.status(200).json({ message: 'Cart purchased', respuesta: response })
     }
     catch (error) {
