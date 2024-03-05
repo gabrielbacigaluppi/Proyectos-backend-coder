@@ -8,7 +8,7 @@
     "start:dev": "nodemon src/app.js --mode dev --port 8080",
     "start:test": "nodemon src/app.js --mode test",
     "start:prod": "nodemon src/app.js --mode prod",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -t 10000 test/supertest.test.js"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +16,7 @@
   "dependencies": {
     "@faker-js/faker": "^8.3.1",
     "bcrypt": "^5.1.1",
+    "chai-http": "^4.4.0",
     "commander": "^11.1.0",
     "connect-mongo": "^5.1.0",
     "cookie-parser": "^1.4.6",
@@ -33,7 +34,14 @@
     "passport-local": "^1.0.0",
     "session-file-store": "^1.5.0",
     "socket.io": "^4.7.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
     "twilio": "^4.20.0",
     "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "chai": "^5.0.0",
+    "mocha": "^10.2.0",
+    "supertest": "^6.3.4"
   }
 }

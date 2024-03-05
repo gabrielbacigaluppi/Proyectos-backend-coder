@@ -1,9 +1,9 @@
-import { usersManager } from "../dao/usersManager.js"
+import { usersManager } from "../dao/mongo/usersManager.js"
 
 
 export const createOne = (obj) => {
-    const createdProduct = usersManager.createOne(obj)
-    return createdProduct
+    const createdUser = usersManager.createOne(obj)
+    return createdUser
 }
 
 export const findByEmail = (email) => {
@@ -11,3 +11,7 @@ export const findByEmail = (email) => {
     return user
 }
 
+export const updateOne = (id,obj) => {
+    const updatedUser = usersManager.updateOne(id,obj)
+    return updatedUser
+}

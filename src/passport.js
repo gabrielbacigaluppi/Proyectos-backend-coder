@@ -49,10 +49,13 @@ passport.use(
                     return done(null, false);
                 }
                 const hashedPassword = await hashData(password);
+                const userOrAdmin = email === "adminCoder@coder.com" && password === "Cod3r123" ? "admin" : "user";
                 const createdUser = await usersManager.createOne({
                     ...req.body,
-                    password: hashedPassword,
+                    password: hashedPassword, 
+                    role: userOrAdmin
                 });
+                
                 done(null, createdUser)
             }
             catch (error) {

@@ -1,6 +1,6 @@
-import { cartsManager } from "../dao/mongo/cartsManager.js";
+import {ticketsManager} from "../dao/mongo/ticketsManager.js"
 
-export const purchaseCart = (idCart) => {
-    const cartPurchased = cartsManager.purchaseCart(idCart)
-    return cartPurchased
+export const newTicket = (obj) => {
+    const ticketCreated = ticketsManager.createOne(obj)
+    return ticketCreated
 }

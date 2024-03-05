@@ -2,6 +2,7 @@ import { Router } from "express";
 // import productsManager from '../ProductManager.js'
 import {findAllProducts,findProduct,createProduct,updateProduct,deleteProduct} from "../controllers/products.controller.js"
 import { fakeProducts } from "../mocking.js";
+import {authMiddlewareAdmin, authMiddlewareUser} from '../middlewares/auth.middleware.js'
 
 const router = Router()
 
@@ -84,9 +85,10 @@ router.delete('/:idProduct', async(req,res)=>{
 router.get('/', findAllProducts)
 router.get('/mockingproducts',fakeProducts)
 router.get("/:idProduct", findProduct);
-router.post('/', createProduct)
-router.put('/:idProduct', updateProduct)
-router.delete('/:idProduct', deleteProduct)
+router.post('/',authMiddlewareAdmin, createProduct)
+router.put('/:idProduct',authMiddlewareAdmin, updateProduct)
+router.delete('/:idProduct',authMiddlewareAdmin, deleteProduct)
+
 
 
 export default router

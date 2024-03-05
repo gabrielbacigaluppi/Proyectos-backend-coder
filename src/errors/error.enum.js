@@ -13,5 +13,6 @@ export const ErrorMessages = {
 	PRODUCT_NOT_UPDATED: "Error updating product",
 	PRODUCT_NOT_DELETED: "Error deleting product",
 	USER_NOT_LOGGED: "Error logging in",
-	USER_NOT_CREATED: "Error creating user"
+	USER_NOT_CREATED: "Error creating user",
+	PASSWORD_UPDATE_FAILED: "Error updating password"
 };

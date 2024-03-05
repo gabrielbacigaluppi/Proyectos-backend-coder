@@ -18,6 +18,9 @@ import config from "./config/config.js"
 import messagesRouter from './router/messages.router.js'
 import { errorMiddleware } from './errors/error.middleware.js';
 
+import swaggerUi from "swagger-ui-express";
+import { swaggerSetup } from "./swaggerSpecs.js";
+
 
 const app = express()
 
@@ -55,6 +58,7 @@ app.use("/api/users", usersRouter);
 app.use("/api/sessions", sessionsRouter);
 app.use('/api', viewsRouter)
 app.use('/api/message', messagesRouter)
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSetup));
 
 //Errors
 app.use(errorMiddleware)

@@ -1,0 +1,120 @@
+openapi: 3.0.0
+info:
+  title: Products API
+  version: 1.0.0
+paths:
+  /api/products:
+    get:
+      summary: Get all products
+      tags:
+        - Products
+      responses:
+        '200':
+          description: All products
+        '500':
+          description: Server error
+        '400':
+          description: Some data is missing
+    post:
+      summary: Create a new product
+      tags:
+        - Products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: Product created
+        '500':
+          description: Server error
+        '400':
+          description: Some data is missing
+  /api/products/{idProduct}:
+    get:
+      summary: Get product by ID
+      tags:
+        - Products
+      parameters:
+        - name: idProduct
+          in: path
+          description: Product identifier
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: One product found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+    put:
+      summary: Update product by ID
+      tags:
+        - Products
+      parameters:
+        - name: idProduct
+          in: path
+          description: Product identifier
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: Product updated
+        '500':
+          description: Server error
+        '400':
+          description: Some data is missing
+    delete:
+      summary: Delete product by ID
+      tags:
+        - Products
+      parameters:
+        - name: idProduct
+          in: path
+          description: Product identifier
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Product deleted
+        '500':
+          description: Server error
+        '400':
+          description: Some data is missing
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        title:
+          type: string
+          required: true
+        description:
+          type: string
+          required: true
+        code:
+          type: number
+          required: true
+        price:
+          type: number
+          required: true
+        status:
+          type: string
+          required: true
+        stock:
+          type: number
+          default: 0
+          required: true
+        category:
+          type: string
+          required: true

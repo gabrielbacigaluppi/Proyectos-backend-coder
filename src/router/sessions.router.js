@@ -38,9 +38,10 @@ router.post('/login', (req, res) => {
 // router.get("/current", passport.authenticate('jwt',{session:false}), (req, res) => {
 //     res.send(req.user)
 // })
-router.get("/current", passportCall('jwt'), (req, res) => {
+router.get("/jwt/current", passportCall('jwt'), (req, res) => {
     // res.send({user: req.user.email, password: req.user.password})
-    res.send(req.user)
+    res.send({user: req.user.email})
+    // res.send(req.user)
 })
 
 export default router

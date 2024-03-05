@@ -5,11 +5,15 @@ import passport from "passport";
 import local from 'passport-local';
 import jwt from "jsonwebtoken";
 import config from "./config/config.js"
+// import { dirname, join } from "path";
 
 const JWT_SECRET = config.jwt_key;
 
 
 export const __dirname = dirname(fileURLToPath(import.meta.url))
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = join(dirname(__filename), "..");
+// export default __dirname;
 
 export const hashData = async(data) => {
     const hash = await bcrypt.hash(data,10)
@@ -37,3 +41,5 @@ export const passportCall = (strategy) =>{
         })(req,res,next)
     }
 }
+
+
